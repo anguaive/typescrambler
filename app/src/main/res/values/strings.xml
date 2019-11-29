@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Typescrambler</string>
+    <string name="new_game">New game</string>
+    <string name="highscores">Highscores</string>
+    <string name="settings">Settings</string>
+    <string name="typescrambler">TYPESCRAMBLER</string>
 </resources>
