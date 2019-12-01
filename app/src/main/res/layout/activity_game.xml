@@ -7,10 +7,63 @@
     tools:context=".GameActivity">
 
     <TextView
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/levelText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:text="game"/>
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/gameEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="32dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/levelText">
+
+        <TextView
+            android:id="@+id/gameHintText"
+            style="@style/HintText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+
+            android:background="@drawable/bg_game_hint_text"
+
+            />
+
+        <com.angu.myapplication.views.GameEditText
+            android:id="@+id/gameEditText"
+            style="@style/GameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:autoLink="none"
+            android:background="@drawable/bg_game_edit_text"
+            android:importantForAutofill="no"
+            android:inputType="text|textNoSuggestions"
+            tools:ignore="LabelFor" />
+
+
+    </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBarTimer"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:animationResolution="50"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/gameEditTextLayout" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
