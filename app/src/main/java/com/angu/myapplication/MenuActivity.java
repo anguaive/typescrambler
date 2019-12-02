@@ -16,9 +16,9 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        final Button buttonNewGame = findViewById(R.id.buttonNewGame);
-        final Button buttonHighscores = findViewById(R.id.buttonHighscores);
-        final Button buttonSettings = findViewById(R.id.buttonSettings);
+        final Button btnNewGame = findViewById(R.id.btnMenuNewGame);
+        final Button btnHighscore = findViewById(R.id.btnMenuHighscores);
+        final Button btnSettings = findViewById(R.id.btnMenuSettings);
 
         // log screen size in dp
         DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
@@ -26,7 +26,7 @@ public class MenuActivity extends AppCompatActivity {
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         System.out.println("Screen size in dp: " + dpWidth + " * " + dpHeight);
 
-        buttonNewGame.setOnClickListener(new View.OnClickListener() {
+        btnNewGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, GameActivity.class);
@@ -34,7 +34,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        buttonHighscores.setOnClickListener(new View.OnClickListener() {
+        btnHighscore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, HighscoreActivity.class);
@@ -42,7 +42,7 @@ public class MenuActivity extends AppCompatActivity {
             }
         });
 
-        buttonSettings.setOnClickListener(new View.OnClickListener() {
+        btnSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MenuActivity.this, SettingsActivity.class);

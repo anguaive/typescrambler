@@ -2,9 +2,15 @@ package com.angu.myapplication.logic;
 
 public class Statistics {
 
-    private static int keypressesAll;
-    private static int keypressesCorrect;
+    public String playerName;
+    public int levelReached;
+    public int keystrokes;
+    public int keystrokesCorrect;
 
-    public static void saveStats() {};
-
+    public Statistics(String playerName, int levelReached, int keystrokes, int keystrokesCorrect) {
+        this.playerName = playerName;
+        this.levelReached = levelReached;
+        this.keystrokes = keystrokes;
+        this.keystrokesCorrect = keystrokesCorrect;
+    }
 }

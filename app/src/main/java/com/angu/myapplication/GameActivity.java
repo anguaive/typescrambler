@@ -13,16 +13,14 @@ import com.angu.myapplication.logic.GameState;
 import com.angu.myapplication.logic.Statistics;
 import com.angu.myapplication.views.GameEditText;
 
-import java.util.Random;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static Random random = new Random();
     private static GameState gameState = new GameState();
-    private static Statistics statistics = new Statistics();
+    private int keystrokes, keystrokesCorrect;
     private static ScheduledThreadPoolExecutor timer = new ScheduledThreadPoolExecutor(2);
     ScheduledFuture<?> timerSchedule, progressBarSchedule;
 
@@ -35,42 +33,55 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void initializeGame() {
-        final GameEditText gameEditText = findViewById(R.id.gameEditText);
-        gameEditText.initialize((TextView) findViewById(R.id.gameHintText));
+        resetGame();
 
-        gameEditText.addTextChangedListener(new TextWatcher() {
+        final GameEditText textGameInput = findViewById(R.id.textGameInput);
+        textGameInput.initialize((TextView) findViewById(R.id.textGameObjective));
+
+        textGameInput.addTextChangedListener(new TextWatcher() {
+
+            String oldInput;
+            String newInput;
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                oldInput = textGameInput.getText() == null ? "" : textGameInput.getText().toString();
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String text = s.toString();
-                int hintLength = gameEditText.hintText.length();
-                int textLength = s.length();
+                newInput = s.toString();
+                int objectiveLength = textGameInput.objective.length();
+                int newInputLength = s.length();
 
-                if (textLength > hintLength) {
-                    gameEditText.setIncorrect(true);
+                // space and backspace will not count as keystrokes
+                // therefore, a keystroke only happens if the trimmed length of the newInput is larger than that of the oldInput
+                if(newInput.trim().length() > oldInput.trim().length()) {
+                    keystrokes++;
+                }
+
+                if (newInputLength > objectiveLength) {
+                    textGameInput.setIncorrect(true);
                     return;
                 } else {
-                    if (!text.equals(gameEditText.hintText.substring(0, textLength))) {
-                        gameEditText.setIncorrect(true);
+                    if (!newInput.equals(textGameInput.objective.substring(0, newInputLength))) {
+                        textGameInput.setIncorrect(true);
                         return;
                     } else {
-                        gameEditText.setIncorrect(false);
+                        textGameInput.setIncorrect(false);
+                        if(newInput.trim().length() > oldInput.trim().length()) {
+                            keystrokesCorrect++;
+                        }
                     }
                 }
 
-                if (text.equals(gameEditText.hintText)) {
+                if (newInput.equals(textGameInput.objective)) {
                     beginNextLevel();
                 }
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -78,34 +89,39 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void beginGame() {
-
+    public void resetGame() {
+        gameState.level = 0;
     }
 
     public void endGame() {
         // move to EndScoreActivity, display stats from the current round, then go back to menu
         // happens when the timer runs out
         // maybe display an end game animation
-        // reset game
-        gameState.difficulty = 0;
-        Intent intent = new Intent(GameActivity.this, MenuActivity.class);
+
+        Bundle statsBundle = new Bundle();
+        statsBundle.putInt("level", gameState.level);
+        statsBundle.putInt("keystrokes", keystrokes);
+        statsBundle.putInt("keystrokesCorrect", keystrokesCorrect);
+
+        Intent intent = new Intent(GameActivity.this, EndGameActivity.class);
+        intent.putExtras(statsBundle);
         startActivity(intent);
     }
 
     public void beginNextLevel() {
-        final GameEditText gameEditText = findViewById(R.id.gameEditText);
-        final TextView levelText = findViewById(R.id.levelText);
-        final ProgressBar progressBarTimer = findViewById(R.id.progressBarTimer);
+        final GameEditText textGameInput = findViewById(R.id.textGameInput);
+        final TextView textCurrentLevel = findViewById(R.id.textCurrentLevel);
+        final ProgressBar progressTimer = findViewById(R.id.progressTimer);
 
-        if(timerSchedule != null && progressBarSchedule != null) {
+        if (timerSchedule != null && progressBarSchedule != null) {
             timerSchedule.cancel(false);
             progressBarSchedule.cancel(false);
-            progressBarTimer.setProgress(0);
+            progressTimer.setProgress(0);
         }
         // level begin animation, maybe a countdown or something
         gameState.increaseLevel();
-        gameEditText.setGameText(gameState.word);
-        levelText.setText(getString(R.string.level, gameState.difficulty));
+        textGameInput.setObjective(gameState.word);
+        textCurrentLevel.setText(getString(R.string.level, gameState.level));
 
         Thread timerTask = new Thread() {
             @Override
@@ -117,12 +133,12 @@ public class GameActivity extends AppCompatActivity {
         Thread progressBarTask = new Thread() {
             @Override
             public void run() {
-                progressBarTimer.incrementProgressBy(1);
+                progressTimer.incrementProgressBy(1);
             }
         };
 
-        timerSchedule = timer.schedule(timerTask, (int)gameState.timeLimit, TimeUnit.MILLISECONDS);
-        progressBarSchedule = timer.scheduleAtFixedRate(progressBarTask, 0, (long)gameState.timeLimit/100, TimeUnit.MILLISECONDS);
+        timerSchedule = timer.schedule(timerTask, (int) gameState.timeLimit, TimeUnit.MILLISECONDS);
+        progressBarSchedule = timer.scheduleAtFixedRate(progressBarTask, 0, (long) gameState.timeLimit / 100, TimeUnit.MILLISECONDS);
 
 
     }
