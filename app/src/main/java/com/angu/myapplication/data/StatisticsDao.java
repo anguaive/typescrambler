@@ -10,7 +10,7 @@ import java.util.List;
 
 @Dao
 public interface StatisticsDao {
-    @Query("SELECT * FROM statistics s ORDER BY s.level")
+    @Query("SELECT * FROM statistics s ORDER BY s.level DESC")
     List<Statistics> getAll();
 
     @Insert

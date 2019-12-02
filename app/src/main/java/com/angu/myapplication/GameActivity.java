@@ -36,6 +36,17 @@ public class GameActivity extends AppCompatActivity {
         initializeGame();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        resetGame();
+        if (timerSchedule != null && progressBarSchedule != null) {
+            timerSchedule.cancel(false);
+            progressBarSchedule.cancel(false);
+        }
+    }
+
     public void initializeGame() {
         resetGame();
 
@@ -98,10 +109,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void endGame() {
-        // move to EndScoreActivity, display stats from the current round, then go back to menu
-        // happens when the timer runs out
-        // maybe display an end game animation
-
         Bundle statsBundle = new Bundle();
         statsBundle.putInt("level", gameState.level);
         statsBundle.putInt("keystrokes", keystrokes);

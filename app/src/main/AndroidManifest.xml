@@ -14,7 +14,7 @@
             android:name=".EndGameActivity"
             android:excludeFromRecents="true"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Dialog" />
+            android:theme="@style/EndGameTheme" />
         <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait" />

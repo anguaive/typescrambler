@@ -7,14 +7,14 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.angu.myapplication.data.Statistics;
 import com.angu.myapplication.data.StatisticsDatabase;
@@ -64,7 +64,7 @@ public class EndGameActivity extends AppCompatActivity {
         setFinishOnTouchOutside(false);
         Intent intent = getIntent();
 
-        final Button btnToMenu = findViewById(R.id.btnEndGameToMenu);
+        final Button btnSubmitAndToMenu = findViewById(R.id.btnEndGameSubmitAndToMenu);
         final TextView textMessage = findViewById(R.id.textEndGameMessage);
         final TextView textStatsLevel = findViewById(R.id.textEndGameStatsLevel);
         final TextView textStatsKeystrokes = findViewById(R.id.textEndGameStatsKeystrokes);
@@ -83,6 +83,17 @@ public class EndGameActivity extends AppCompatActivity {
                 "statistics"
         ).build();
 
+        textPlayerName.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    btnSubmitAndToMenu.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+
 
         textMessage.setText(endGameMessages[level / 5]);
         textStatsLevel.setText("You completed level " + level + "!");
@@ -91,7 +102,7 @@ public class EndGameActivity extends AppCompatActivity {
         textStatsAccuracy.setText(String.format(Locale.US, "Accuracy: %.2f%%", accuracy));
 
 
-        btnToMenu.setOnClickListener(new View.OnClickListener() {
+        btnSubmitAndToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String playerName = textPlayerName.getText().toString().isEmpty() ? "Anonymous" : textPlayerName.getText().toString();
@@ -102,6 +113,8 @@ public class EndGameActivity extends AppCompatActivity {
 
                 final Statistics stats = new Statistics(playerName, level, accuracy , dateString);
                 saveStatsInBackground(stats);
+
+                Toast.makeText(getApplicationContext(), "Score saved.", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(EndGameActivity.this, MenuActivity.class);
                 startActivity(intent);

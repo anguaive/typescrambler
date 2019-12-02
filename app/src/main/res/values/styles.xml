@@ -8,10 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="WallpaperTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+    <style name="WallpaperTheme" parent="AppTheme">
         <item name="android:windowBackground">
             @drawable/img_menu_background
         </item>
+    </style>
+
+    <style name="EndGameTheme" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="EditTextBase" parent="TextAppearance.AppCompat">
