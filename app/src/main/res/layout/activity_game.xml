@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
-        android:id="@+id/gameEditTextLayout"
+        android:id="@+id/layoutGameInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
@@ -33,8 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:background="@drawable/bg_game_hint_text"
-            />
+            android:background="@drawable/bg_game_hint_text" />
 
         <com.angu.myapplication.views.GameEditText
             android:id="@+id/textGameInput"
@@ -61,7 +60,7 @@
         android:animationResolution="50"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/gameEditTextLayout" />
+        app:layout_constraintTop_toBottomOf="@id/layoutGameInput" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

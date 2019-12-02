@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.angu.myapplication.logic.GameState;
-import com.angu.myapplication.logic.Statistics;
 import com.angu.myapplication.views.GameEditText;
 
 import java.util.concurrent.ScheduledFuture;

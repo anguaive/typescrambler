@@ -3,50 +3,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="32dp"
     android:gravity="center"
     android:orientation="vertical"
-    android:layout_margin="32dp"
     tools:context=".EndGameActivity">
 
     <TextView
         android:id="@+id/textEndGameMessage"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Game ended lol"
+        android:layout_height="16dp"
         android:textAlignment="center" />
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/textEndGameStatsLevel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:textAlignment="center" />
 
-        <TextView
-            android:id="@+id/textEndGameStatsLevel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/textEndGameStatsKeystrokes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textEndGameStatsKeystrokes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+    <TextView
+        android:id="@+id/textEndGameStatsKeystrokesCorrect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textEndGameStatsKeystrokesCorrect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/textEndGameStatsAccuracy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/textEndGamePlayerName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="text|textNoSuggestions"
         android:importantForAutofill="no"
+        android:inputType="text|textNoSuggestions"
         tools:ignore="LabelFor" />
 
     <Button
@@ -54,5 +49,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/return_to_menu" />
+
 
 </LinearLayout>

@@ -13,10 +13,17 @@
         <activity
             android:name=".EndGameActivity"
             android:excludeFromRecents="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Dialog" />
-        <activity android:name=".SettingsActivity" />
-        <activity android:name=".GameActivity" />
-        <activity android:name=".HighscoreActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GameActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".HighscoreActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MenuActivity"
             android:theme="@style/WallpaperTheme">

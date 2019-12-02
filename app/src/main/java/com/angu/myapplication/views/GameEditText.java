@@ -1,6 +1,8 @@
 package com.angu.myapplication.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.InputFilter;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -10,6 +12,9 @@ import android.widget.TextView;
 import androidx.appcompat.widget.AppCompatEditText;
 
 import com.angu.myapplication.R;
+import com.angu.myapplication.data.Statistics;
+
+import java.util.List;
 
 public class GameEditText extends AppCompatEditText {
 
@@ -41,6 +46,7 @@ public class GameEditText extends AppCompatEditText {
         setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         setOnTouchListener(new OnTouchListener() {
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;

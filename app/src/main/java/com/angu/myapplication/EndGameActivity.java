@@ -1,18 +1,29 @@
 package com.angu.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.angu.myapplication.logic.Statistics;
+import com.angu.myapplication.data.Statistics;
+import com.angu.myapplication.data.StatisticsDatabase;
 
-import org.w3c.dom.Text;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class EndGameActivity extends AppCompatActivity {
@@ -29,11 +40,12 @@ public class EndGameActivity extends AppCompatActivity {
             "Huh... You're showing sings of life.",
             "Not great, but not terrible.",
             "Oh... You're starting to get the hang of it.",
+            "Slightly above average!",
             "Great improvement!",
             "\"He's beginning to believe.\"",
             "Impressive, keep it up!",
             "Wow, you're really stepping up!",
-            "Slightly above average!",
+            "Great improvement!",
             "Remarkable!",
             "Masterful!",
             "You were so close to the top!",
@@ -41,12 +53,14 @@ public class EndGameActivity extends AppCompatActivity {
             "Congratulations! You are the champion!"
     };
 
+    private StatisticsDatabase database;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_end_game);
+        setContentView(R.layout.popup_end_game);
         setFinishOnTouchOutside(false);
         Intent intent = getIntent();
 
@@ -55,27 +69,54 @@ public class EndGameActivity extends AppCompatActivity {
         final TextView textStatsLevel = findViewById(R.id.textEndGameStatsLevel);
         final TextView textStatsKeystrokes = findViewById(R.id.textEndGameStatsKeystrokes);
         final TextView textStatsKeystrokesCorrect = findViewById(R.id.textEndGameStatsKeystrokesCorrect);
-        final EditText textPlayerName = findViewById(R.id.textEndGamePlayerName)
+        final TextView textStatsAccuracy = findViewById(R.id.textEndGameStatsAccuracy);
+        final EditText textPlayerName = findViewById(R.id.textEndGamePlayerName);
 
         final int level = intent.getExtras().getInt("level") - 1;
         final int keystrokes = intent.getExtras().getInt("keystrokes");
         final int keystrokesCorrect = intent.getExtras().getInt("keystrokesCorrect");
+        final double accuracy = keystrokes == 0 ? 0 : (double)keystrokesCorrect/keystrokes * 100;
+
+        database = Room.databaseBuilder(
+                getApplicationContext(),
+                StatisticsDatabase.class,
+                "statistics"
+        ).build();
 
 
         textMessage.setText(endGameMessages[level / 5]);
         textStatsLevel.setText("You completed level " + level + "!");
         textStatsKeystrokes.setText("Keystrokes: " + keystrokes);
         textStatsKeystrokesCorrect.setText("Correct keystrokes: " + keystrokesCorrect);
+        textStatsAccuracy.setText(String.format(Locale.US, "Accuracy: %.2f%%", accuracy));
+
 
         btnToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String playerName = textPlayerName.getText() == null ? "Anonymous" : textPlayerName.getText().toString();
-                Statistics stats = new Statistics(playerName, level, keystrokes, keystrokesCorrect);
+                String playerName = textPlayerName.getText().toString().isEmpty() ? "Anonymous" : textPlayerName.getText().toString();
+
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+                Date today = Calendar.getInstance().getTime();
+                String dateString = dateFormat.format(today);
+
+                final Statistics stats = new Statistics(playerName, level, accuracy , dateString);
+                saveStatsInBackground(stats);
+
                 Intent intent = new Intent(EndGameActivity.this, MenuActivity.class);
                 startActivity(intent);
             }
         });
+    }
 
+    @SuppressLint("StaticFieldLeak")
+    private void saveStatsInBackground(final Statistics stats) {
+        new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... voids) {
+                database.statisticsDao().insert(stats);
+                return true;
+            }
+        }.execute();
     }
 }
