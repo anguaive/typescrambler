@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatEditText;
 
+import com.angu.myapplication.R;
+
 public class GameEditText extends AppCompatEditText {
 
     private boolean incorrect = false;
@@ -25,10 +27,10 @@ public class GameEditText extends AppCompatEditText {
 
         this.incorrect = incorrect;
         if(incorrect) {
-            this.setTextColor(Color.RED);
+            this.setTextColor(getResources().getColor(R.color.colorIncorrectInput));
             hintTextView.setText("");
         } else {
-            this.setTextColor(Color.GREEN);
+            this.setTextColor(getResources().getColor(R.color.colorCorrectInput));
             hintTextView.setText(hintText);
         }
     }

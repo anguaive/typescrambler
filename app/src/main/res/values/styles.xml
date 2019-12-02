@@ -16,11 +16,10 @@
 
     <style name="EditTextBase" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
-        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="GameEditText" parent="EditTextBase">
-        <item name="android:textColor">#79f27b</item>
+        <item name="android:textColor">@color/colorCorrectInput</item>
     </style>
 
     <style name="HintText" parent="EditTextBase">

@@ -49,7 +49,6 @@ public class GameActivity extends AppCompatActivity {
                 String text = s.toString();
                 int hintLength = gameEditText.hintText.length();
                 int textLength = s.length();
-                System.out.println(text + " " + gameEditText.hintText);
 
                 if (textLength > hintLength) {
                     gameEditText.setIncorrect(true);
@@ -118,12 +117,12 @@ public class GameActivity extends AppCompatActivity {
         Thread progressBarTask = new Thread() {
             @Override
             public void run() {
-                progressBarTimer.incrementProgressBy(50 * 100 / gameState.timeLimit);
+                progressBarTimer.incrementProgressBy(1);
             }
         };
 
-        timerSchedule = timer.schedule(timerTask, gameState.timeLimit, TimeUnit.MILLISECONDS);
-        progressBarSchedule = timer.scheduleAtFixedRate(progressBarTask, 0, 50, TimeUnit.MILLISECONDS);
+        timerSchedule = timer.schedule(timerTask, (int)gameState.timeLimit, TimeUnit.MILLISECONDS);
+        progressBarSchedule = timer.scheduleAtFixedRate(progressBarTask, 0, (long)gameState.timeLimit/100, TimeUnit.MILLISECONDS);
 
 
     }

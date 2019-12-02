@@ -5,7 +5,7 @@ import java.util.Random;
 public class GameState {
 
     public int difficulty;
-    public int timeLimit;
+    public double timeLimit;
     public String word;
     private static String[] strings = new String[]{"arc", "concrete", "self", "armory", "lamb", "restore"};
 
@@ -13,10 +13,11 @@ public class GameState {
         difficulty = 0;
     }
 
-    public static int calculateTimeLimit(int difficulty) {
+    public static double calculateTimeLimit(int difficulty) {
         // TODO: calculate time limit from difficulty
-        // for now, set time limit to 5s
-        return 5000;
+        double limit = 8000 - Math.sqrt(360000 * difficulty);
+        System.out.println(limit);
+        return limit;
     }
 
     public static String fetchWord(int difficulty) {
