@@ -20,6 +20,8 @@
 
     <style name="EditTextBase" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:typeface">monospace</item>
     </style>
 
     <style name="GameEditText" parent="EditTextBase">

@@ -3,18 +3,15 @@ package com.angu.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.angu.myapplication.logic.GameState;
+import com.angu.myapplication.logic.WordList;
 import com.angu.myapplication.views.GameEditText;
 
 import java.util.concurrent.ScheduledFuture;
@@ -23,7 +20,8 @@ import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity {
 
-    private static GameState gameState = new GameState();
+    private GameState gameState;
+    private WordList wordList;
     private int keystrokes, keystrokesCorrect;
     private static ScheduledThreadPoolExecutor timer = new ScheduledThreadPoolExecutor(2);
     ScheduledFuture<?> timerSchedule, progressBarSchedule;
@@ -48,7 +46,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void initializeGame() {
-        resetGame();
+        AssetManager assetManager = getApplicationContext().getAssets();
+        wordList = new WordList(assetManager);
+        gameState = new GameState(wordList);
 
         final GameEditText textGameInput = findViewById(R.id.textGameInput);
         textGameInput.initialize((TextView) findViewById(R.id.textGameObjective));
