@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorAppBackground</item>
     </style>
 
     <style name="WallpaperTheme" parent="AppTheme">
@@ -14,13 +15,19 @@
         </item>
     </style>
 
+    <style name="StatisticsItemTheme" parent="AppTheme">
+        <item name="android:background">
+            @color/colorStatisticsItemBackground
+        </item>
+
+    </style>
+
     <style name="EndGameTheme" parent="Theme.AppCompat.Dialog">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="EditTextBase" parent="TextAppearance.AppCompat">
         <item name="android:textSize">24sp</item>
-        <item name="android:fontFamily">monospace</item>
         <item name="android:typeface">monospace</item>
     </style>
 

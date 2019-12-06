@@ -6,4 +6,6 @@
     <color name="colorMainTitle">#f0f6ff</color>
     <color name="colorCorrectInput">#79f27b</color>
     <color name="colorIncorrectInput">#ff3721</color>
+    <color name="colorStatisticsItemBackground">#383838</color>
+    <color name="colorAppBackground">#292929</color>
 </resources>
