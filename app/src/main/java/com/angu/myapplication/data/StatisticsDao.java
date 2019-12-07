@@ -13,6 +13,9 @@ public interface StatisticsDao {
     @Query("SELECT * FROM statistics s ORDER BY s.level DESC")
     List<Statistics> getAll();
 
+    @Query("DELETE FROM statistics")
+    void deleteAll();
+
     @Insert
     long insert(Statistics stats);
 
