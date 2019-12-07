@@ -3,10 +3,6 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
-    <SwitchPreferenceCompat
-        app:key="notifications"
-        app:title="Enable message notifications" />
-
     <Preference
         app:key="resetHighscores"
         app:summary="Reset highscores"

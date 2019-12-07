@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/StatisticsItemTheme"
+    android:id="@+id/layoutKeyboard"
+    android:columnCount="5"
+    android:rowCount="5"
+    android:orientation="horizontal"
+    android:padding="0dp"
+    android:layout_margin="0dp">
+
+
+</GridLayout>

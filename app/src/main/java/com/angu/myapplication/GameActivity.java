@@ -10,6 +10,7 @@ import android.text.TextWatcher;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.angu.myapplication.fragments.KeyboardFragment;
 import com.angu.myapplication.logic.GameState;
 import com.angu.myapplication.logic.WordList;
 import com.angu.myapplication.views.GameEditText;
@@ -53,6 +54,9 @@ public class GameActivity extends AppCompatActivity {
         final GameEditText textGameInput = findViewById(R.id.textGameInput);
         textGameInput.initialize((TextView) findViewById(R.id.textGameObjective));
 
+        final KeyboardFragment keyboardFragment = (KeyboardFragment) getSupportFragmentManager().findFragmentById(R.id.layoutMain);
+        keyboardFragment.initialize(textGameInput);
+
         textGameInput.addTextChangedListener(new TextWatcher() {
 
             String oldInput;
@@ -71,7 +75,7 @@ public class GameActivity extends AppCompatActivity {
 
                 // space and backspace will not count as keystrokes
                 // therefore, a keystroke only happens if the trimmed length of the newInput is larger than that of the oldInput
-                if(newInput.trim().length() > oldInput.trim().length()) {
+                if (newInput.trim().length() > oldInput.trim().length()) {
                     keystrokes++;
                 }
 
@@ -84,7 +88,7 @@ public class GameActivity extends AppCompatActivity {
                         return;
                     } else {
                         textGameInput.setIncorrect(false);
-                        if(newInput.trim().length() > oldInput.trim().length()) {
+                        if (newInput.trim().length() > oldInput.trim().length()) {
                             keystrokesCorrect++;
                         }
                     }
@@ -99,6 +103,7 @@ public class GameActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
             }
         });
+
 
         beginNextLevel();
 
@@ -123,6 +128,13 @@ public class GameActivity extends AppCompatActivity {
         final GameEditText textGameInput = findViewById(R.id.textGameInput);
         final TextView textCurrentLevel = findViewById(R.id.textCurrentLevel);
         final ProgressBar progressTimer = findViewById(R.id.progressTimer);
+        final KeyboardFragment keyboardFragment = (KeyboardFragment) getSupportFragmentManager().findFragmentById(R.id.layoutMain);
+
+        if (keyboardFragment == null) {
+            return;
+        }
+
+        keyboardFragment.reset();
 
         if (timerSchedule != null && progressBarSchedule != null) {
             timerSchedule.cancel(false);
@@ -132,6 +144,7 @@ public class GameActivity extends AppCompatActivity {
         // level begin animation, maybe a countdown or something
         gameState.increaseLevel();
         textGameInput.setObjective(gameState.word);
+        keyboardFragment.setupKeyboard(gameState.word);
         textCurrentLevel.setText(getString(R.string.level, gameState.level));
 
         Thread timerTask = new Thread() {

@@ -62,5 +62,14 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layoutGameInput" />
 
+    <fragment
+        android:name="com.angu.myapplication.fragments.KeyboardFragment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressTimer"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/layoutMain"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
