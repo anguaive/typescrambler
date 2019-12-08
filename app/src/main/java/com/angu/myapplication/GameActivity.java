@@ -160,7 +160,7 @@ public class GameActivity extends AppCompatActivity {
         textCurrentLevel.setText(getString(R.string.level, gameState.level));
         timerLowAnimation.setDuration((long)(gameState.timeLimit * 0.4));
         timerLowAnimation.setStartOffset((long)(gameState.timeLimit * 0.6));
-        
+
 
         Thread timerTask = new Thread() {
             @Override

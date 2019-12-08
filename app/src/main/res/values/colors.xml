@@ -8,4 +8,5 @@
     <color name="colorIncorrectInput">#ff3721</color>
     <color name="colorStatisticsItemBackground">#383838</color>
     <color name="colorAppBackground">#292929</color>
+    <color name="colorKeyboardButtonBackground">#1c1c1b</color>
 </resources>
