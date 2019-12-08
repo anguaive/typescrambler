@@ -7,6 +7,10 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,7 +29,7 @@ public class GameActivity extends AppCompatActivity {
     private WordList wordList;
     private int keystrokes, keystrokesCorrect;
     private static ScheduledThreadPoolExecutor timer = new ScheduledThreadPoolExecutor(2);
-    ScheduledFuture<?> timerSchedule, progressBarSchedule;
+    ScheduledFuture<?> timerSchedule, progressBarSchedule, timerAnimSchedule;
 
 
     @Override
@@ -129,6 +133,8 @@ public class GameActivity extends AppCompatActivity {
         final TextView textCurrentLevel = findViewById(R.id.textCurrentLevel);
         final ProgressBar progressTimer = findViewById(R.id.progressTimer);
         final KeyboardFragment keyboardFragment = (KeyboardFragment) getSupportFragmentManager().findFragmentById(R.id.layoutMain);
+        final Animation timerLowAnimation = AnimationUtils.loadAnimation(this, R.anim.timer_low_animation);
+        final ImageView imgTimerLowAnimation = findViewById(R.id.imgTimerAnim);
 
         if (keyboardFragment == null) {
             return;
@@ -136,16 +142,25 @@ public class GameActivity extends AppCompatActivity {
 
         keyboardFragment.reset();
 
-        if (timerSchedule != null && progressBarSchedule != null) {
+        if (timerSchedule != null) {
             timerSchedule.cancel(false);
-            progressBarSchedule.cancel(false);
-            progressTimer.setProgress(0);
         }
-        // level begin animation, maybe a countdown or something
+        if (progressBarSchedule != null) {
+            progressBarSchedule.cancel(false);
+        }
+        if (timerAnimSchedule != null) {
+            timerAnimSchedule.cancel(false);
+        }
+        progressTimer.setProgress(0);
+
+        // TODO: level begin animation, maybe a countdown or something
         gameState.increaseLevel();
         textGameInput.setObjective(gameState.word);
         keyboardFragment.setupKeyboard(gameState.word);
         textCurrentLevel.setText(getString(R.string.level, gameState.level));
+        timerLowAnimation.setDuration((long)(gameState.timeLimit * 0.4));
+        timerLowAnimation.setStartOffset((long)(gameState.timeLimit * 0.6));
+        
 
         Thread timerTask = new Thread() {
             @Override
@@ -161,7 +176,15 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
-        timerSchedule = timer.schedule(timerTask, (int) gameState.timeLimit, TimeUnit.MILLISECONDS);
+        Thread timerAnimTask = new Thread() {
+            @Override
+            public void run() {
+                imgTimerLowAnimation.startAnimation(timerLowAnimation);
+            }
+        };
+
+        timerSchedule = timer.schedule(timerTask, (long) gameState.timeLimit, TimeUnit.MILLISECONDS);
+        timerAnimSchedule = timer.schedule(timerAnimTask, 0, TimeUnit.MILLISECONDS);
         progressBarSchedule = timer.scheduleAtFixedRate(progressBarTask, 0, (long) gameState.timeLimit / 100, TimeUnit.MILLISECONDS);
 
 
