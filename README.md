@@ -8,4 +8,4 @@ word before the timer runs out to reach the next level. The levels increase in d
 generated words get longer and the timing becomes more strict. The Highscores screen displays a
 list of all your previous attempts.
 
-![Images](/screenshots.all.png)
+![Images](/screenshots/all.png)
